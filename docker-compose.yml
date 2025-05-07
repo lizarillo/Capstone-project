@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app:
+    image: php:8.2-apache
+    container_name: laravel-app
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8000:80"
+    depends_on:
+      - mailpit
+    working_dir: /var/www/html
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    command: >
+      bash -c "apt update &&
+               apt install -y libzip-dev unzip curl git zip libpng-dev libonig-dev libxml2-dev &&
+               docker-php-ext-install pdo pdo_mysql zip gd mbstring &&
+               apache2-foreground"
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
