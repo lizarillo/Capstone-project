@@ -165,7 +165,7 @@
     </div>
 
     <!-- Profile Form -->
-    <form action="{{ route('superadmin.update') }}" method="POST" enctype="multipart/form-data" id="profileForm">
+    <form action="{{ route('superadmin.profile.update') }}" method="POST" enctype="multipart/form-data" id="profileForm">
         @csrf
 
         <div class="form-group">
@@ -257,7 +257,7 @@
     }
 
     function cancelEdit() {
-        window.location.href = "{{ route('superadmin.edit') }}";
+        window.location.href = "{{ route('superadmin.profile.edit') }}";
     }
 
     function previewImage(event) {

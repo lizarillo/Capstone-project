@@ -46,8 +46,8 @@ return new class extends Migration
             $table->enum('document_type', ['report_card', 'transcript', 'certificate', 'other']);
             $table->string('file_path');
             $table->enum('status', ['pending', 'under_review', 'approved', 'rejected'])->default('pending');
-            
-            // Foreign Keys with proper constraints
+
+            // Foreign Keys
             $table->foreignId('institution_id')->constrained()->onDelete('cascade');
             $table->foreignId('program_id')->constrained()->onDelete('cascade');
             $table->foreignId('course_id')->constrained()->onDelete('cascade');

@@ -116,13 +116,13 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-chart-bar"></i>
                             <p>
-                                Reports
+                                Activity Logs
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('reports.admin') }}" class="nav-link">
+                                <a href="{{ route('admin.reports') }}" class="nav-link">
                                     <i class="nav-icon fas fa-users"></i>
                                     <p>Admin Logs</p>
                                 </a>

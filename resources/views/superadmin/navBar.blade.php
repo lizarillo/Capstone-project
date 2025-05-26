@@ -1,6 +1,6 @@
 <!-- Preloader -->
 <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="{{ asset('img/logoreg.png') }}" alt="DSSC Logo" height="100" width="100">
+    <img class="animation__shake" src="{{ asset('img/logodssc.jpg') }}" alt="DSSC Logo" height="100" width="100">
 </div>
 
 
@@ -17,59 +17,37 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
-        <li class="nav-item">
-            <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                <i class="fas fa-search"></i>
-            </a>
-            <div class="navbar-search-block">
-                <form class="form-inline">
-                    <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </li>
+       
 
-        <!-- User Profile Dropdown -->
-        <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-        @auth
-            @php
-                $user = Auth::user();
-                $profilePic = $user->profile_picture
-                    ? asset('storage/' . $user->profile_picture) . '?v=' . time()
-                    : asset('img/user.jpg');
-                $userName = $user->firstname . ' ' . $user->lastname;
-            @endphp
-            <img src="{{ $profilePic }}" alt="Profile" class="img-circle" style="width: 30px; height: 30px; object-fit: cover;">
-            <span class="d-none d-md-inline">
-                {{ $userName }}
-                @if($user->role === 'superadmin')
-                    <small class="text-muted">(Superadmin)</small>
-                @elseif($user->role === 'admin')
-                    <small class="text-muted">(Admin)</small>
-                @endif
-            </span>
-        @else
-            <img src="{{ asset('img/user.jpg') }}" alt="Profile" class="img-circle" style="width: 30px; height: 30px; object-fit: cover;">
-            <span class="d-none d-md-inline">Guest</span>
-        @endauth
-    </a>
+      <nav class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+   @auth
+        @php
+            $user = Auth::user();
+            $profilePic = $user->profile_picture
+                ? asset('storage/' . $user->profile_picture) . '?v=' . time()
+                : asset('img/user.jpg');
+            $userName = $user->firstname . ' ' . $user->lastname;
+        @endphp
+        <img src="{{ $profilePic }}" alt="Profile" class="img-circle" style="width: 30px; height: 30px; object-fit: cover;">
+        <span class="d-none d-md-inline">
+            {{ $userName }}
+            @php $role = strtolower($user->role); @endphp
+            @if($role === 'admin')
+                <small class="text-muted">(Admin)</small>
+            @elseif($role === 'superadmin')
+                <small class="text-muted">(Superadmin)</small>
+            @endif
+        </span>
+    @endauth
 
+</nav>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="border-top: 2px solid #004080;">
                 @auth
-                    <a href="{{ route('superadmin.edit') }}" class="dropdown-item">
+                    <a href="{{ route('superadmin.profile.edit') }}" class="dropdown-item">
                         <i class="fas fa-user-edit"></i> Edit Account
                     </a>
+
+                    
                     <a href="#" class="dropdown-item" onclick="confirmLogout(event)">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </a>

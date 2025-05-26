@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Admin;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -19,13 +21,17 @@ class AdminController extends Controller
         ]);
     }
     
-    
-public function showAdminList()
+ public function adminReports()
 {
-    // Get users with the role 'admin'
-    $user = User::where('role', 'admin')->get();
-    return view('reports.admin', compact('user'));
+    $admins = User::where('role', 'admin')->get(); // Or whatever your admin role is
+
+    return view('reports.admin', compact('admins'));
 }
+
+
+
+
+
     
 public function showAdminDashboard()
 {
@@ -63,10 +69,24 @@ public function showAdminDashboard()
         return redirect()->back()->with('success', 'Profile updated successfully!');
     }
 
+    public function update(Request $request, $id)
+    {
+        $admin = Admin::findOrFail($id);
+
+        if (auth()->user()->id !== $admin->id) {
+            abort(403, 'Unauthorized');
+        }
+
+        $admin->update($request->only(['firstname', 'lastname', 'email', 'status']));
+
+        return back()->with('success', 'Profile updated successfully.');
+    }
+
     // View Profile
     public function profile()
     {
         $user = Auth::user();
         return view('admin.profile', compact('user'));
     }
+
 }

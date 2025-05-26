@@ -2,7 +2,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin | Analytics</title>
+    <title>Admin | Dashboard</title>
+    <link rel="icon" href="{{ asset('img/dssc_logo_official.png') }}" type="image/png">
 </head>
 <body>
 @extends('admin.layouts')
@@ -130,7 +131,7 @@
                     <div class="compact-card bg-info text-white">
                         <i class="fas fa-users stat-icon"></i>
                         <div class="small-stat">{{ $GetName }}</div>
-                        <div class="text-uppercase small font-weight-500">User Registrations</div>
+                        <div class="text-uppercase small font-weight-500">Student Registrations</div>
                         <div class="text-xs opacity-75 mt-1">+8% last month</div>
                     </div>
                 </div>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Models\AdminLog;
 
 class AuthenticationController extends Controller
 {
@@ -63,9 +64,6 @@ class AuthenticationController extends Controller
     
         return back()->with('failed', 'Invalid email or password.');
     }
-    
-
-
     
     
 }

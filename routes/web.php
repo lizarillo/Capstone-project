@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,23 +37,58 @@ Route::get('/logout', function () {
 */
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    // Dashboards
+    // Admin routes
+    Route::prefix('admin')->name('admin.')->group(function () {
+        // Dashboard
+        Route::get('/dashboard', [AdminController::class, 'showAdminDashboard'])->name('dashboard');
+
+        // Profile Management
+        Route::get('/profile/edit', [AdminController::class, 'editProfile'])->name('profileEdit');
+        Route::post('/profile/update', [AdminController::class, 'updateProfile'])->name('updateProfile');
+
+
+
+
+        // Reports
+        Route::get('/reports', [AdminController::class, 'adminReports'])->name('reports');
+
+        // Document Management (alternative access for admin if needed)
+        Route::resource('documents', DocumentController::class)->only(['index', 'show']);
+    });
+
+   Route::prefix('superadmin')->name('superadmin.')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [SuperAdminController::class, 'showSuperAdmin'])->name('dashboard');
+
+    // Admin Management
+    Route::get('/admin-roles', [SuperAdminController::class, 'adminRoles'])->name('adminroles');
+    Route::post('/admin/store', [SuperAdminController::class, 'store'])->name('admin.store');
     
-    Route::get('/admin/dashboard', [AdminController::class,'showAdminDashboard'])->name('admin.dashboard');
-    Route::get('/superadmin/dashboard', [SuperAdminController::class, 'showSuperAdmin'])->name('superadmin.dashboard');
-
-    // Profile Management
-
-    Route::get('/admin/profile/edit', [AdminController::class, 'editProfile'])->name('admin.profileEdit');
-
-    Route::post('/admin/profile/update', [AdminController::class, 'updateProfile'])->name('admin.updateProfile');
+    Route::post('/admin/restore/{id}', [SuperAdminController::class, 'restore'])->name('admin.restore');
+    Route::get('/admin/users', [SuperAdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin-management', [AdminController::class, 'index'])->name('admin.management');
+    Route::post('/users/restore/{id}', [SuperAdminController::class, 'restoreUser'])
+     ->name('superadmin.users.restore');
 
 
-    // Admin Reports / Logs
-    Route::get('/admin/reports', [AdminController::class, 'showAdminList'])->name('reports.admin');
-    
+     Route::get('/superadmin/administrators', [SuperAdminController::class, 'showAdministrators'])->name('administrators');
+    Route::put('/admin/update/{id}', [SuperAdminController::class, 'update'])->name('admin.update');
+    Route::delete('/admin/delete/{id}', [SuperAdminController::class, 'destroy'])->name('admin.delete');
 
-/*
+
+
+    Route::get('/admin/login-history', [AdminController::class, 'showLoginHistory']);
+
+    // Student submission & export PDF
+    Route::get('/student-submission', [SuperAdminController::class, 'studentSubmission'])->name('studentSubmission');
+    Route::get('/export/pdf', [SuperAdminController::class, 'exportPdf'])->name('export.pdf');
+
+    // Superadmin profile management
+    Route::get('/profile/edit', [SuperAdminController::class, 'editAdmin'])->name('profile.edit');
+    Route::post('/profile/update', [SuperAdminController::class, 'updateAdmin'])->name('profile.update');
+});
+
+    /*
     |--------------------------------------------------------------------------
     | Document Management
     |--------------------------------------------------------------------------
@@ -67,28 +102,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/listOfDocuments', fn() => redirect()->route('documents.index'));
     Route::get('/listDocuments', [DocumentController::class, 'index'])->name('listDocuments');
 
-
-     // SuperAdminDashboards
-
-     Route::get('/superadmin/dashboard', [SuperAdminController::class, 'showSuperAdmin'])->name('superadmin.dashboard');
-     Route::get('/superadmin/admin-roles', [SuperAdminController::class, 'adminRoles'])->name('superadmin.adminroles');
-     Route::get('/superadmin/student-submission', [SuperAdminController::class, 'studentSubmission'])
-         ->name('superadmin.studentSubmission');
-  
-    // For showing the edit profile form
-Route::get('/profile/edit', [SuperAdminController::class, 'edit'])->name('superadmin.edit');
-
-// For updating the profile (must be POST or PUT)
-Route::post('/profile/update', [SuperAdminController::class, 'update'])->name('superadmin.update');
-
-
-
-
-
-
-
-
-
-
-
 });
+
+// Show forgot password form
+
+// Handle sending password reset email
+Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');

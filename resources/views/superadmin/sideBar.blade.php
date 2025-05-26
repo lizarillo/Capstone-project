@@ -44,7 +44,7 @@
                   
                      <!-- Manage Admin-->
                      <li class="nav-item">
-                    <a href="{{ route('superadmin.adminroles') }}" class="nav-link">
+                    <a href="{{ route('superadmin.administrators') }}" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>Manage Admin</p>
                         </a>
@@ -92,14 +92,14 @@
                     </li>
 
                 
+<!-- Superadmin Profile (View/Edit) -->
+<li class="nav-item">
+    <a href="{{ route('superadmin.profile.edit') }}" class="nav-link">
+        <i class="nav-icon fas fa-user-cog"></i>
+        <p>Superadmin Profile</p>
+    </a>
+</li>
 
-                            <!-- Superadmin Profile (View/Edit) -->
-                        <li class="nav-item">
-                            <a href="{{ route('superadmin.edit') }}" class="nav-link">
-                                <i class="nav-icon fas fa-user-cog"></i>
-                                <p>Superadmin Profile</p>
-                            </a>
-                        </li>
 
                 </ul>
             </nav>
