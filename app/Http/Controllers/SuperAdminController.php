@@ -13,63 +13,74 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class SuperAdminController extends Controller
 {
     // Dashboard
-  
-    public function showSuperAdmin()
+  public function showSuperAdmin()
 {
+    // Mock counts for submissions
     $submissionCounts = [
-        'submittedCount' => Submission::where('status', 'submitted')->count(),
-        'pendingCount' => Submission::where('status', 'pending')->count(),
-        'unsubmittedCount' => Submission::where('status', 'unsubmitted')->count(),
+        'submittedCount' => 10,
+        'pendingCount' => 5,
+        'unsubmittedCount' => 3,
     ];
 
-    $institutionSubmissions = Submission::join('institutions', 'submissions.institution_id', '=', 'institutions.id')
-        ->select('institutions.name as institution', DB::raw('count(*) as submissions_count'))
-        ->groupBy('institutions.name')
-        ->get();
+    // Mock institution submissions
+    $institutionSubmissions = collect([
+        (object)['institution' => 'ICET', 'submissions_count' => 4],
+        (object)['institution' => 'IBEG', 'submissions_count' => 3],
+        (object)['institution' => 'IARS', 'submissions_count' => 2],
+        (object)['institution' => 'ITED', 'submissions_count' => 5],
+        (object)['institution' => 'IMAS', 'submissions_count' => 1],
+    ]);
 
-    $institutionCodes = ['ICET', 'IBEG', 'IARS', 'ITED', 'IMAS'];
-    $institutionStats = [];
+    // Mock institution stats
+    $institutionStats = [
+        'ICET' => 4,
+        'IBEG' => 3,
+        'IARS' => 2,
+        'ITED' => 5,
+        'IMAS' => 1,
+    ];
 
-    foreach ($institutionCodes as $code) {
-        $institution = Institution::where('code', $code)->first();
-        $institutionStats[$code] = $institution
-            ? Submission::where('institution_id', $institution->id)->count()
-            : 0;
-    }
+    // Mock admin login logs
+    $loginLogs = collect([
+        (object)[
+            'admin_id' => 1,
+            'firstname' => 'Juan',
+            'lastname' => 'Dela Cruz',
+            'email' => 'juan@example.com',
+            'action' => 'login',
+            'ip_address' => '127.0.0.1',
+            'user_agent' => 'Mozilla/5.0',
+            'is_active' => true,
+            'created_at' => now(),
+        ]
+    ]);
 
-    // ✅ This is the variable your Blade view needs:
-    $loginLogs = AdminLog::with('admin')->latest()->get();
-
+    // Main data to send to view
     $data = [
-        'totalInstitutions' => Institution::count(),
-        'registeredStudents' => Student::count(),
-        'registeredAdmins' => User::where('role', 'admin')->count(),
-        'admins' => User::whereIn('role', ['admin', 'superadmin'])->get(),
-        'studentLoginHistory' => StudentLoginHistory::latest()->take(200)->get(),
-        'adminLoginHistory' => $loginLogs->where('action', 'login')->take(10)->map(fn($log) => (object)[
-            'admin_id' => optional($log->admin)->id,
-            'firstname' => optional($log->admin)->firstname,
-            'lastname' => optional($log->admin)->lastname,
-            'email' => optional($log->admin)->email,
-            'action' => $log->action,
-            'ip_address' => $log->ip_address,
-            'user_agent' => $log->user_agent,
-            'is_active' => optional($log->admin)->status === 'active',
-            'created_at' => $log->created_at,
+        'totalInstitutions' => 5,
+        'registeredStudents' => 100,
+        'registeredAdmins' => 3,
+        'admins' => collect([
+            (object)['firstname' => 'Juan', 'lastname' => 'Dela Cruz', 'role' => 'admin'],
+            (object)['firstname' => 'Ana', 'lastname' => 'Santos', 'role' => 'superadmin'],
         ]),
+        'studentLoginHistory' => collect([]), // empty for now
+        'adminLoginHistory' => $loginLogs,
         'institutionStats' => $institutionStats,
         'institutionSubmissions' => $institutionSubmissions,
-        'loginLogs' => $loginLogs, // ✅ Add this
+        'loginLogs' => $loginLogs,
     ];
 
     $data = array_merge($data, $submissionCounts);
 
     return view('superadmin.dashboard')->with($data);
 }
+
 
 
     // Admin Management Page
@@ -90,10 +101,14 @@ class SuperAdminController extends Controller
             ];
         });
 
-        return view('superadmin.adminroles', compact('admins', 'archivedAdmins', 'loginLogs'));
+        return view('superadmin.manageadmin', compact('admins', 'archivedAdmins', 'loginLogs'));
     }
 
-
+public function showAdministrators()
+{
+    $users = User::where('role', 'admin')->get(); // Adjust 'admin' to your actual role name
+    return view('superadmin.manageadmin', compact('users')); // Adjust view path if needed
+}
 
 
 
@@ -134,24 +149,11 @@ class SuperAdminController extends Controller
 public function index()
 {
     $admins = User::where('role', 'admin')->get();
+    $users = User::all();
 
-    return view('superadmin.manageadmin', compact('admins'));
+    return view('superadmin.manageadmin', compact('admins', 'users'));
+
 }
-
-
-
-
-
-
-
-
-
-public function showAdministrators()
-{
-    $users = User::where('role', 'admin')->get(); // Adjust 'admin' to your actual role name
-    return view('superadmin.manageadmin', compact('users')); // Adjust view path if needed
-}
-
 
 
     public function studentSubmission()
@@ -186,23 +188,29 @@ public function showAdministrators()
         return back()->with('success', 'Profile updated successfully.');
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'email' => 'required|email|unique:admins,email',
-            'role' => 'required|string',
-            'password' => 'required|string|min:6',
-        ]);
 
-        $validated['password'] = bcrypt($validated['password']);
-        $validated['status'] = 'active';
+public function store(Request $request)
+{
+    $request->validate([
+        'firstname' => 'required|string|max:255',
+        'lastname' => 'required|string|max:255',
+        'email' => 'required|string|email|unique:users,email',
+        'password' => 'required|string|min:8',
+        'role' => 'required|in:admin,superadmin',
+    ]);
 
-        Admin::create($validated);
+    User::create([
+        'firstname' => $request->firstname,
+        'lastname' => $request->lastname,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => $request->role,
+        // Removed 'status' since it's not in the users table
+    ]);
 
-        return redirect()->route('superadmin.adminroles')->with('success', 'Admin added successfully.');
-    }
+    return redirect()->back()->with('success', 'Admin created successfully.');
+}
+
 
 
     public function restore($id)
@@ -283,5 +291,13 @@ public function destroy($id, Request $request)
     }
 }
 
+public function studentActivity()
+{
+     return view('superadmin.studentActivity');
+}
+public function requestActivity()
+{
+     return view('superadmin.requestActivity');
+}
 
 }

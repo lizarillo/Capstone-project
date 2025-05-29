@@ -97,7 +97,8 @@
                                                 <span class="badge bg-danger">Inactive</span>
                                             @endif
                                         </td>
-                                        <td>{{ $user->created_at->format('M d, Y H:i') }}</td>
+                                       <td>{{ $user->created_at ? $user->created_at->format('M d, Y H:i') : 'N/A' }}</td>
+
                                         <td>
                                             <div class="btn-group">
                                                 <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewModal{{ $user->id }}">
@@ -299,7 +300,9 @@ document.getElementById('editForm{{ $user->id }}').addEventListener('submit', fu
         </div>
     </div>
 
-            <div class="modal fade" id="addUserModal" tabindex="-1">
+        
+        <!-- Add User Modal -->
+        <div class="modal fade" id="addUserModal" tabindex="-1">
             <div class="modal-dialog modal-xl modal-dialog-centered">
                 <div class="modal-content">
                     <form method="POST" action="{{ route('superadmin.admin.store') }}" id="addUserForm">
@@ -351,16 +354,15 @@ document.getElementById('editForm{{ $user->id }}').addEventListener('submit', fu
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-success">Create User</button>
+                            <button type="submit" class="btn btn-success">Save Admin</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div> 
+        </div>
 
-
-
+</div>
 
 
   </div>

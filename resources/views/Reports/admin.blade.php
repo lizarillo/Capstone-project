@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activity | Logs</title>
+    <title>Activity | Report</title>
     <link rel="icon" href="{{ asset('img/dssc_logo_official.png') }}" type="image/png">
 
     <!-- DataTables -->
@@ -78,7 +78,8 @@
                                                         {{ $row->status ?? 'Active' }}
                                                     </span>
                                                 </td>
-                                                <td>{{ $row->created_at->format('Y-m-d H:i') }}</td>
+                                                <td>{{ optional($row->created_at)->format('Y-m-d H:i') ?? 'N/A' }}</td>
+
                                                 <td>
                                                     <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal{{ $row->id }}">View</button>
                                                 </td>
@@ -98,7 +99,8 @@
                                                             <p><strong>Email:</strong> {{ $row->email }}</p>
                                                             <p><strong>Role:</strong> {{ $row->role }}</p>
                                                             <p><strong>Status:</strong> {{ $row->status ?? 'Active' }}</p>
-                                                            <p><strong>Created Date:</strong> {{ $row->created_at->format('Y-m-d H:i') }}</p>
+                                                            <p><strong>Created Date:</strong> {{ optional($row->created_at)->format('Y-m-d H:i') ?? 'N/A' }}</p>
+
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

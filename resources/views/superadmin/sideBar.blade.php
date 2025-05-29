@@ -44,32 +44,20 @@
                   
                      <!-- Manage Admin-->
                      <li class="nav-item">
-                    <a href="{{ route('superadmin.administrators') }}" class="nav-link">
+                    <a href="{{ route('superadmin.manageadmin') }}" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>Manage Admin</p>
                         </a>
                     </li>
                   
 
-
-                    <!-- Student Submission-->
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-folder-open"></i>
-                            <p>
-                                     Student Submission
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
+                     <li class="nav-item">
+                    <a href="{{ route('superadmin.studentActivity') }}" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>Student Submission</p>
                         </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('superadmin.studentSubmission') }}" class="nav-link">
-                                    <i class="nav-icon fas fa-inbox text-info"></i>
-                                    <p>Student Activity</p>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
+                    
 
                     <!-- Manage Requests -->
                     <li class="nav-item has-treeview">
@@ -82,7 +70,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('superadmin.requestActivity') }}" class="nav-link">
                                     <i class="nav-icon fas fa-clock text-warning"></i>
                                     <p>Request Activity</p>
                                 </a>

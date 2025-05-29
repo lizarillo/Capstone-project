@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\ForgotPasswordController;
 
@@ -42,18 +42,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Dashboard
         Route::get('/dashboard', [AdminController::class, 'showAdminDashboard'])->name('dashboard');
 
+        Route::post('/admin/store', [SuperAdminController::class, 'store'])->name('admin.store');
+
         // Profile Management
         Route::get('/profile/edit', [AdminController::class, 'editProfile'])->name('profileEdit');
         Route::post('/profile/update', [AdminController::class, 'updateProfile'])->name('updateProfile');
 
 
-
-
         // Reports
         Route::get('/reports', [AdminController::class, 'adminReports'])->name('reports');
 
-        // Document Management (alternative access for admin if needed)
-        Route::resource('documents', DocumentController::class)->only(['index', 'show']);
+        //SUbmission
+         Route::get('/submission', [AdminController::class, 'showSubmission'])->name('submission');
+
     });
 
    Route::prefix('superadmin')->name('superadmin.')->group(function () {
@@ -71,7 +72,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
      ->name('superadmin.users.restore');
 
 
-     Route::get('/superadmin/administrators', [SuperAdminController::class, 'showAdministrators'])->name('administrators');
+     Route::get('/superadmin/administrators', [SuperAdminController::class, 'showAdministrators'])->name('manageadmin');
+
+
     Route::put('/admin/update/{id}', [SuperAdminController::class, 'update'])->name('admin.update');
     Route::delete('/admin/delete/{id}', [SuperAdminController::class, 'destroy'])->name('admin.delete');
 
@@ -88,19 +91,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/profile/update', [SuperAdminController::class, 'updateAdmin'])->name('profile.update');
 });
 
-    /*
-    |--------------------------------------------------------------------------
-    | Document Management
-    |--------------------------------------------------------------------------
-    */
-    Route::resource('documents', DocumentController::class);
-    Route::get('/documents/pdf', [DocumentController::class, 'exportPdf'])->name('documents.pdf');
-    Route::patch('/documents/{document}/approve', [DocumentController::class, 'approve'])->name('documents.approve');
-    Route::patch('/documents/{document}/status', [DocumentController::class, 'updateStatus'])->name('documents.updateStatus');
-
-    // Alternative redirects
-    Route::get('/listOfDocuments', fn() => redirect()->route('documents.index'));
-    Route::get('/listDocuments', [DocumentController::class, 'index'])->name('listDocuments');
+    
+   
 
 });
 
@@ -110,3 +102,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
 Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+
+
+
+Route::get('/admin/submissions', [SubmissionController::class, 'listOfSubmission'])->name('admin.submissions');
+
+Route::get('/student/history', [AdminController::class, 'studentHistory'])->name('admin.studentHistory');
+
+Route::get('/student/perDay', [AdminController::class, 'perDay'])->name('admin.perDay');
+
+Route::get('/student/byDocument', [AdminController::class, 'byDocument'])->name('admin.byDocument');
+
+Route::get('/student/byStudent', [AdminController::class, 'byStudent'])->name('admin.byStudent');
+
+
+Route::get('/student/request', [AdminController::class, 'request'])->name('admin.request');
+
+Route::get('/student/request/pending', [AdminController::class, 'pendingRequest'])->name('admin.pendingRequest');
+
+Route::get('/student/request/approved', [AdminController::class, 'approvedRequest'])->name('admin.approvedRequest');
+
+Route::get('/student/request/rejected', [AdminController::class, 'rejectedRequest'])->name('admin.rejectedRequest');
+
+
+Route::get('/studentActivity', [SuperAdminController::class, 'studentActivity'])->name('superadmin.studentActivity');
+
+Route::get('/studentRequest', [SuperAdminController::class, 'requestActivity'])->name('superadmin.requestActivity');

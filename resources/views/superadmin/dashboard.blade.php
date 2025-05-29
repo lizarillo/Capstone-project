@@ -167,7 +167,10 @@
                     @forelse($adminLoginHistory as $login)
     <tr>
         <td>{{ $login->admin_id }}</td>
-        <td>{{ $login->firstname }} {{ $login->lastname }}</td>
+        <td>{{ $login->firstname ?? '' }} {{ $login->lastname ?? '' }}</td>
+
+
+
         <td>{{ $login->email }}</td>
         <td>
             <span class="badge {{ $login->is_active ? 'bg-success' : 'bg-secondary' }}">

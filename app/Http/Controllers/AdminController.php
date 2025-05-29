@@ -29,7 +29,10 @@ class AdminController extends Controller
 }
 
 
-
+ public function showSubmission()
+    {
+        return view('admin.submissions');
+    }
 
 
     
@@ -88,5 +91,43 @@ public function showAdminDashboard()
         $user = Auth::user();
         return view('admin.profile', compact('user'));
     }
+
+     public function studentHistory()
+{
+     return view('admin.studentHistory');
+}
+
+  public function perDay()
+{
+     return view('admin.perDay');
+}
+public function byDocument()
+{
+     return view('admin.byDocument');
+}
+public function byStudent()
+{
+     return view('admin.byStudent');
+}
+
+public function request()
+{
+     return view('admin.request');
+}
+
+public function pendingRequest()
+{
+     return view('admin.pendingRequest');
+}
+
+public function approvedRequest()
+{
+     return view('admin.approvedRequest');
+}
+
+public function rejectedRequest()
+{
+     return view('admin.rejectedRequest');
+}
 
 }

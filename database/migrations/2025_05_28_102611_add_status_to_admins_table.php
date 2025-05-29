@@ -9,19 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   // In the generated migration file
-public function up()
+   public function up()
 {
-   Schema::table('users', function (Blueprint $table) {
-    $table->string('status')->default('active')->after('role');
-});
-
+    Schema::table('admins', function (Blueprint $table) {
+        $table->string('status')->default('Active');
+    });
 }
 
 public function down()
 {
-    Schema::table('users', function (Blueprint $table) {
+    Schema::table('admins', function (Blueprint $table) {
         $table->dropColumn('status');
     });
 }
+
 };

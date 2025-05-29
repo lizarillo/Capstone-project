@@ -1,11 +1,3 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin | Dashboard</title>
-    <link rel="icon" href="{{ asset('img/dssc_logo_official.png') }}" type="image/png">
-</head>
-<body>
 @extends('admin.layouts')
 
 @section('content')
@@ -95,10 +87,7 @@
     }
 </style>
 
-
 <div class="content-wrapper" style="padding-top: 70px;">
-
-    
     <section class="content">
         <div class="container-fluid">
             <!-- Stats Row -->
@@ -137,102 +126,279 @@
                 </div>
             </div>
 
-            <!-- Analytics Section -->
+            <!-- Document Analytics -->
             <div class="row mt-4">
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="card compact-card">
                         <div class="card-body">
                             <div class="chart-toolbar">
                                 <h5 class="mb-0">Document Analytics</h5>
                                 <div>
-                                    <button class="date-filter-btn active" data-filter="day">Day</button>
-                                    <button class="date-filter-btn" data-filter="week">Week</button>
-                                    <button class="date-filter-btn" data-filter="month">Month</button>
-                                    <button class="date-filter-btn" data-filter="year">Year</button>
+                                      <button class="date-filter-btn active">Document Types</button>
                                 </div>
                             </div>
-                            <canvas class="analytics-chart" id="docChart"></canvas>
+                             <canvas class="analytics-chart" id="docTypeChart"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card compact-card mb-4">
-                                <div class="card-body">
-                                    <h5 class="mb-4">Document Status</h5>
-                                    <div class="list-group">
-                                        <div class="list-group-item">
-                                            <span class="status-dot bg-success"></span>
-                                            Approved
-                                            <span class="ms-auto badge bg-success-soft badge-soft">357</span>
-                                        </div>
-                                        <div class="list-group-item">
-                                            <span class="status-dot bg-danger"></span>
-                                            Declined
-                                            <span class="ms-auto badge bg-danger-soft badge-soft">65</span>
-                                        </div>
-                                        <div class="list-group-item">
-                                            <span class="status-dot bg-warning"></span>
-                                            Pending
-                                            <span class="ms-auto badge bg-warning-soft badge-soft">75</span>
-                                        </div>
-                                    </div>
+                <div class="col-md-3 d-flex flex-column gap-3">
+                    <!-- Document Status -->
+                    <div class="card compact-card">
+                        <div class="card-body">
+                            <h5 class="mb-4">Document Status</h5>
+                            <div class="list-group">
+                                <div class="list-group-item">
+                                    <span class="status-dot bg-success"></span>
+                                    Approved
+                                    <span class="ms-auto badge bg-success-soft badge-soft">357</span>
+                                </div>
+                                <div class="list-group-item">
+                                    <span class="status-dot bg-danger"></span>
+                                    Declined
+                                    <span class="ms-auto badge bg-danger-soft badge-soft">65</span>
+                                </div>
+                                <div class="list-group-item">
+                                    <span class="status-dot bg-warning"></span>
+                                    Pending
+                                    <span class="ms-auto badge bg-warning-soft badge-soft">75</span>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-12">
-                            <div class="card compact-card">
-                                <div class="card-body">
-                                    <h5 class="mb-4">Student Gender Distribution</h5>
-                                    <div class="chart-container">
-                                        <canvas id="genderChart"></canvas>
-                                    </div>
+                    <!-- Student Submissions -->
+                    <div class="card compact-card">
+                        <div class="card-body">
+                            <h5 class="mb-4">Student Submissions</h5>
+                            <div class="list-group">
+                                <div class="list-group-item small-column">
+                                    <span class="status-dot bg-primary"></span>
+                                    Total Students
+                                    <span class="ms-auto badge bg-primary-soft badge-soft">150</span>
+                                </div>
+                                <div class="list-group-item small-column">
+                                    <span class="status-dot bg-success"></span>
+                                    Submitted
+                                    <span class="ms-auto badge bg-success-soft badge-soft">120</span>
+                                </div>
+                                <div class="list-group-item small-column">
+                                    <span class="status-dot bg-danger"></span>
+                                    Pending
+                                    <span class="ms-auto badge bg-danger-soft badge-soft">25</span>
+                                </div>
+                                <div class="list-group-item small-column">
+                                    <span class="status-dot bg-warning"></span>
+                                    Late Submission
+                                    <span class="ms-auto badge bg-warning-soft badge-soft">5</span>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
 
-                        <div class="col-12">
-                            <div class="card compact-card mb-4">
-                                <div class="card-body">
-                                    <h5 class="mb-4">Student Submissions</h5>
-                                    <div class="list-group">
-                                        <div class="list-group-item small-column">
-                                            <span class="status-dot bg-primary"></span>
-                                            Total Students
-                                            <span class="ms-auto badge bg-primary-soft badge-soft">150</span>
-                                        </div>
-                                        <div class="list-group-item small-column">
-                                            <span class="status-dot bg-success"></span>
-                                            Submitted
-                                            <span class="ms-auto badge bg-success-soft badge-soft">120</span>
-                                        </div>
-                                        <div class="list-group-item small-column">
-                                            <span class="status-dot bg-danger"></span>
-                                            Pending
-                                            <span class="ms-auto badge bg-danger-soft badge-soft">25</span>
-                                        </div>
-                                        <div class="list-group-item small-column">
-                                            <span class="status-dot bg-warning"></span>
-                                            Late Submission
-                                            <span class="ms-auto badge bg-warning-soft badge-soft">5</span>
-                                        </div>
-                                    </div>
-                                </div>
+            <!-- Student Login History -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card compact-card">
+                        <div class="card-body">
+                            <h5 class="mb-4">Student Login History</h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Student ID</th>
+                                            <th>Firstname</th>
+                                            <th>Lastname</th>
+                                            <th>Program</th>
+                                            <th>Registered Date</th>
+                                            <th>Last Login</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>STU2025001</td>
+                                            <td>Juan</td>
+                                            <td>Dela Cruz</td>
+                                            <td>BSIT</td>
+                                            <td>2025-01-10</td>
+                                            <td>2025-05-28 08:23 AM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>STU2025002</td>
+                                            <td>Maria</td>
+                                            <td>Santos</td>
+                                            <td>BSBA</td>
+                                            <td>2025-02-03</td>
+                                            <td>2025-05-27 04:15 PM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>STU2025003</td>
+                                            <td>Carlos</td>
+                                            <td>Reyes</td>
+                                            <td>BSCS</td>
+                                            <td>2025-01-22</td>
+                                            <td>2025-05-26 10:11 AM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>STU2025004</td>
+                                            <td>Ana</td>
+                                            <td>Lopez</td>
+                                            <td>BSIT</td>
+                                            <td>2025-03-12</td>
+                                            <td>2025-05-25 02:47 PM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>STU2025005</td>
+                                            <td>John</td>
+                                            <td>Torres</td>
+                                            <td>BSED</td>
+                                            <td>2025-02-18</td>
+                                            <td>2025-05-28 09:00 AM</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
 
-                        <div class="col-12">
-                            <div class="card compact-card">
-                                <div class="card-body">
-                                    <h5 class="mb-4">Document Submissions by Day</h5>
-                                    <div class="chart-container">
-                                        <canvas id="dayChart"></canvas>
-                                    </div>
-                                </div>
+            
+
+            
+
+                         <!-- Submission Count Per Student -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card compact-card">
+            <div class="card-body">
+                <h5 class="mb-4">Submission Count Per Student</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Program</th>
+                                <th>Total Submissions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>STU2025001</td>
+                                <td>Juan Dela Cruz</td>
+                                <td>BSIT</td>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>STU2025002</td>
+                                <td>Maria Santos</td>
+                                <td>BSBA</td>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>STU2025003</td>
+                                <td>Carlos Reyes</td>
+                                <td>BSCS</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>STU2025004</td>
+                                <td>Ana Lopez</td>
+                                <td>BSIT</td>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>STU2025005</td>
+                                <td>John Torres</td>
+                                <td>BSED</td>
+                                <td>9</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                             <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card compact-card">
+                        <div class="card-body">
+                            <h5 class="mb-4">Document Request Table</h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Student ID</th>
+                                            <th>Full Name</th>
+                                            <th>Program</th>
+                                            <th>Requested Document</th>
+                                            <th>Request Date</th>
+                                            <th>Status</th>
+                                            <th>Possible Release Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>STU2025001</td>
+                                            <td>Juan Dela Cruz</td>
+                                            <td>BSIT</td>
+                                            <td>Certificate of Registration (COR)</td>
+                                            <td>2025-05-27</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td>2025-05-30</td>
+                                        </tr>
+                                        <tr>
+                                            <td>STU2025002</td>
+                                            <td>Maria Santos</td>
+                                            <td>BSBA</td>
+                                            <td>Certificate of Good Moral (COG)</td>
+                                            <td>2025-05-26</td>
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            <td>2025-05-29</td>
+                                        </tr>
+                                        <tr>
+                                            <td>STU2025003</td>
+                                            <td>Carlos Reyes</td>
+                                            <td>BSCS</td>
+                                            <td>Certificate of Registration (COR)</td>
+                                            <td>2025-05-25</td>
+                                            <td><span class="badge bg-danger">Declined</span></td>
+                                            <td>N/A</td>
+                                        </tr>
+                                        <tr>
+                                            <td>STU2025004</td>
+                                            <td>Ana Lopez</td>
+                                            <td>BSIT</td>
+                                            <td>Certificate of Good Moral (COG)</td>
+                                            <td>2025-05-24</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td>2025-05-31</td>
+                                        </tr>
+                                        <tr>
+                                            <td>STU2025005</td>
+                                            <td>John Torres</td>
+                                            <td>BSED</td>
+                                            <td>Certificate of Registration (COR)</td>
+                                            <td>2025-05-23</td>
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            <td>2025-05-28</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+                            
                         </div>
                     </div>
                 </div>
@@ -240,55 +406,83 @@
         </div>
     </section>
 </div>
-</body>
-</html>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const genderData = {
-        labels: ['Male', 'Female'],
-        datasets: [{
-            data: [60, 90],
-            backgroundColor: ['#36A2EB', '#FF6384'],
-            hoverOffset: 4
-        }]
+    // Document Analytics - Bar chart by document type (submitted vs unsubmitted)
+    const docTypeData = {
+        labels: ['PSA', 'Good Moral', 'Birth Certificate', 'TOR'],
+        datasets: [
+            {
+                label: 'Submitted',
+                data: [45, 38, 52, 60, 48],
+                backgroundColor: '#4CAF50'
+            },
+            {
+                label: 'Unsubmitted',
+                data: [10, 12, 5, 7, 15],
+                backgroundColor: '#F44336'
+            }
+        ]
     };
 
-    new Chart(document.getElementById('genderChart'), {
-        type: 'pie',
-        data: genderData
-    });
-
-    const docData = {
-        labels: ['Approved', 'Pending', 'Declined'],
-        datasets: [{
-            label: 'Document Status',
-            data: [357, 75, 65],
-            backgroundColor: ['#4CAF50', '#FFC107', '#F44336'],
-        }]
-    };
-
-    new Chart(document.getElementById('docChart'), {
+    new Chart(document.getElementById('docTypeChart'), {
         type: 'bar',
-        data: docData,
+        data: docTypeData,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Submissions'
+                    }
+                }
+            }
+        }
     });
 
-    const dayData = {
-        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    // Daily Submission Trends
+    const dailyTrendData = {
+        labels: ['May 24', 'May 25', 'May 26', 'May 27', 'May 28'],
         datasets: [{
-            label: 'Documents Submitted',
-            data: [50, 30, 40, 60, 80],
-            backgroundColor: '#FFC107',
+            label: 'Submissions',
+            data: [12, 19, 10, 14, 20],
+            fill: false,
+            borderColor: '#17a2b8',
+            tension: 0.1
         }]
     };
 
-    new Chart(document.getElementById('dayChart'), {
+    new Chart(document.getElementById('dailyTrendChart'), {
         type: 'line',
-        data: dayData,
+        data: dailyTrendData,
+        options: {
+            responsive: true
+        }
+    });
+
+   
+
+    new Chart(document.getElementById('requestDocChart'), {
+        type: 'bar',
+        data: requestDocData,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Requests'
+                    }
+                }
+            }
+        }
     });
 </script>
-
-
-
-
 
 @endsection

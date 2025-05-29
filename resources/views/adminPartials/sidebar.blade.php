@@ -43,7 +43,7 @@
                     </li>
                   
 
-                    <!-- Document Submitted -->
+                    <!-- Document Submittion -->
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-folder-open"></i>
@@ -54,25 +54,25 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('listDocuments') }}" class="nav-link">
+                                <a href="{{ route('admin.submissions') }}" class="nav-link">
                                     <i class="nav-icon fas fa-inbox text-info"></i>
                                     <p>All Submitted</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                               <a href="{{ route('admin.perDay') }}" class="nav-link">
                                     <i class="nav-icon fas fa-calendar-day text-info"></i>
                                     <p>Submitted Per Day</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('admin.byDocument') }}" class="nav-link">
                                     <i class="nav-icon fas fa-file-alt text-success"></i>
                                     <p>By Documents</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                              <a href="{{ route('admin.byStudent') }}" class="nav-link">
                                     <i class="nav-icon fas fa-user-graduate text-warning"></i>
                                     <p>By Student</p>
                                 </a>
@@ -91,21 +91,28 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                               <a href="{{ route('admin.request') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-inbox text-info"></i>
+                                    <p>All Request</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('admin.pendingRequest') }}" class="nav-link">
                                     <i class="nav-icon fas fa-clock text-warning"></i>
                                     <p>Pending Requests</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                               <a href="{{ route('admin.approvedRequest') }}" class="nav-link">
                                     <i class="nav-icon fas fa-check-circle text-success"></i>
                                     <p>Approved Requests</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('admin.rejectedRequest') }}" class="nav-link">
                                     <i class="nav-icon fas fa-times-circle text-danger"></i>
-                                    <p>Rejected Requests</p>
+                                    <p>Unclaimed Requests</p>
                                 </a>
                             </li>
                         </ul>
@@ -116,7 +123,7 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-chart-bar"></i>
                             <p>
-                                Activity Logs
+                                Reports
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
@@ -128,7 +135,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('admin.studentHistory') }}" class="nav-link">
                                     <i class="nav-icon fas fa-history"></i>
                                     <p>Student Login History</p>
                                 </a>
